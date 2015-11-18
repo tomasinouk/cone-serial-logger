@@ -31,18 +31,18 @@ else:
 	# print file_content
 
 
-values = []
+# values = []
 
-# going through each line of the file and parsing and appending to the list/array
-# for line in file_content:
-# 	print parse(line)
-# values.append(parse(line))
+# # going through each line of the file and parsing and appending to the list/array
+# # for line in file_content:
+# # 	print parse(line)
+# # values.append(parse(line))
 
-# adding router date and time
-date_str = str(datetime.datetime.now().strftime("%Y.%m.%d"))
-values.append(date_str)
-time_str = str(datetime.datetime.now().strftime("%H:%M:%S"))
-values.append(time_str)
+# # adding router date and time
+# date_str = str(datetime.datetime.now().strftime("%Y.%m.%d"))
+# values.append(date_str)
+# time_str = str(datetime.datetime.now().strftime("%H:%M:%S"))
+# values.append(time_str)
 
 # append Cellular metrics
 
@@ -79,23 +79,44 @@ print 'Socket bind complete'
 # Look for the response
 amount_received = 0    
 while True:
-
+	
 	# receive data from client (data, addr)
-    d = s.recvfrom(1024)
-    data = d[0]
-    addr = d[1]
+   	d = s.recvfrom(1024)
+   	data = d[0]
+   	addr = d[1]
      
-    if not data: 
-        break
+   	if not data:
+   		break
+   		# output_file.close()
+       	# break
+
+	values = []
+
+	# going through each line of the file and parsing and appending to the list/array
+	# for line in file_content:
+	# 	print parse(line)
+	# values.append(parse(line))
+
+	# adding router date and time
+	date_str = str(datetime.datetime.now().strftime("%Y.%m.%d"))
+	values.append(date_str)
+	time_str = str(datetime.datetime.now().strftime("%H:%M:%S"))
+	values.append(time_str)
+
+
+
+
     # data = s.recv(1024) #TCP
     # data, addr = sock.recvfrom(1024) # UDP buffer size is 1024 bytes
-    amount_received += len(data)
-    print 'received "%s"' % data
+	amount_received += len(data)
+	print 'received "%s"' % data
     # append serial data
-    values.append(data)
-    a.writerow(values)
+	output_file = open(file_name, 'a')
+	a = csv.writer(output_file, delimiter=';')
+	values.append(data)
+	a.writerow(values)
     # need to solve close/open not to keep file open all the time
-    # output_file.close()
+	output_file.close()
 
 
 
