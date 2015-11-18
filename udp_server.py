@@ -52,30 +52,44 @@ values.append(time_str)
 a.writerow(values)
 output_file.close()
 
-host = "127.0.0.1"
+host = ''
+HOST = ''   # Symbolic name meaning all available interfaces
 port = 4001  
 
-# TCP socket
-# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)         # Create a socket object
-# host = socket.gethostname() # Get local machine name
-              # Reserve a port for your service.
-
-# s.connect((host, port))
-
-
-# UDP socket
-# sock = socket.socket(socket.AF_INET, # Internet
-#                       socket.SOCK_DGRAM) # UDP
-
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
-s.bind((host, port))
-# print s.recv(1024)
+ 
+# Datagram (udp) socket
+try :
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    print 'Socket created'
+except socket.error, msg :
+    print 'Failed to create socket. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
+    sys.exit()
+ 
+ 
+# Bind socket to local host and port
+try:
+    s.bind((host, PORT))
+    print 'Server listening, UDPserver: ' + str(host) + " / : " + str(PORT)
+except socket.error , msg:
+    print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
+    sys.exit()
+     
+print 'Socket bind complete'
 
 # Look for the response
 amount_received = 0    
 while True:
+
+	# receive data from client (data, addr)
+    d = s.recvfrom(1024)
+    data = d[0]
+    addr = d[1]
+     
+    if not data: 
+        break
+     
     # data = s.recv(1024) #TCP
-    data, addr = sock.recvfrom(1024) # UDP buffer size is 1024 bytes
+    # data, addr = sock.recvfrom(1024) # UDP buffer size is 1024 bytes
     amount_received += len(data)
     print 'received "%s"' % data
     # append serial data
