@@ -49,8 +49,8 @@ values.append(time_str)
 
 
 # Needs to be writerow, writerows inserts delimiter after every char in the list
-a.writerow(values)
-output_file.close()
+# a.writerow(values)
+# output_file.close()
 
 host = ''
 HOST = ''   # Symbolic name meaning all available interfaces
@@ -94,7 +94,8 @@ while True:
     # append serial data
     values.append(data)
     a.writerow(values)
-    output_file.close()
+    # need to solve close/open not to keep file open all the time
+    # output_file.close()
 
 
 
