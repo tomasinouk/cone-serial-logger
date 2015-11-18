@@ -17,7 +17,7 @@ if os.path.isfile(file_name):
 	output_file = open(file_name, 'a')
 	a = csv.writer(output_file, delimiter=';')
 
-	file_content = f.readlines()
+	# file_content = f.readlines()
 	# print file_content
 else:
 	print "File ", file_name, " does not existst"
@@ -27,7 +27,7 @@ else:
 	output_file = open(file_name, 'a')
 	a = csv.writer(output_file, delimiter=';')
 
-	file_content = f.readlines()
+	# file_content = f.readlines()
 	# print file_content
 
 
@@ -36,7 +36,7 @@ values = []
 # going through each line of the file and parsing and appending to the list/array
 # for line in file_content:
 # 	print parse(line)
-	values.append(parse(line))
+# values.append(parse(line))
 
 # adding router date and time
 date_str = str(datetime.datetime.now().strftime("%Y.%m.%d"))
@@ -68,8 +68,8 @@ except socket.error, msg :
  
 # Bind socket to local host and port
 try:
-    s.bind((host, PORT))
-    print 'Server listening, UDPserver: ' + str(host) + " / : " + str(PORT)
+    s.bind((host, port))
+    print 'Server listening, UDPserver: ' + str(host) + " / : " + str(port)
 except socket.error , msg:
     print 'Bind failed. Error Code : ' + str(msg[0]) + ' Message ' + msg[1]
     sys.exit()
@@ -87,7 +87,6 @@ while True:
      
     if not data: 
         break
-     
     # data = s.recv(1024) #TCP
     # data, addr = sock.recvfrom(1024) # UDP buffer size is 1024 bytes
     amount_received += len(data)
@@ -95,7 +94,8 @@ while True:
     # append serial data
     values.append(data)
     a.writerow(values)
-	output_file.close()
+    output_file.close()
+
 
 
 # s.close                     # Close the socket when done
