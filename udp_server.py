@@ -52,25 +52,36 @@ values.append(time_str)
 a.writerow(values)
 output_file.close()
 
-
-
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)         # Create a socket object
-# host = socket.gethostname() # Get local machine name
 host = "127.0.0.1"
-port = 4001                # Reserve a port for your service.
+port = 4001  
 
-s.connect((host, port))
+# TCP socket
+# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)         # Create a socket object
+# host = socket.gethostname() # Get local machine name
+              # Reserve a port for your service.
+
+# s.connect((host, port))
+
+
+# UDP socket
+# sock = socket.socket(socket.AF_INET, # Internet
+#                       socket.SOCK_DGRAM) # UDP
+
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
+s.bind((host, port))
 # print s.recv(1024)
 
 # Look for the response
 amount_received = 0    
-while 1:
-    data = s.recv(1024)
+while True:
+    # data = s.recv(1024) #TCP
+    data, addr = sock.recvfrom(1024) # UDP buffer size is 1024 bytes
     amount_received += len(data)
     print 'received "%s"' % data
     # append serial data
     values.append(data)
     a.writerow(values)
 	output_file.close()
+
 
 # s.close                     # Close the socket when done
